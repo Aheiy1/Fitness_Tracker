@@ -321,7 +321,7 @@ describe("Database", () => {
         );
       });
     });
-    xdescribe("createRoutine", () => {
+    describe("createRoutine", () => {
       it("creates and returns the new routine", async () => {
         routineToCreateAndUpdate = await createRoutine({
           creatorId: 2,
