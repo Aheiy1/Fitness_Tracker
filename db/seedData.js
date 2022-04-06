@@ -8,6 +8,7 @@ const {
   createRoutine,
   getRoutinesWithoutActivities,
   getAllActivities,
+  addActivityToRoutine,
 } = require("./");
 async function dropTables() {
   try {
@@ -231,10 +232,10 @@ async function createInitialRoutineActivities() {
         duration: 15,
       },
     ];
-    const routineActivities = await Promise.all(
-      routineActivitiesToCreate.map(addActivityToRoutine)
-    );
-    console.log("routine_activities created: ", routineActivities);
+    // const routineActivities = await Promise.all(
+    //   routineActivitiesToCreate.map(addActivityToRoutine)
+    // );
+    // console.log("routine_activities created: ", routineActivities);
     console.log("Finished creating routine_activities!");
   } catch (error) {
     throw error;
@@ -249,7 +250,7 @@ async function rebuildDB() {
     await createInitialUsers();
     await createInitialActivities();
     await createInitialRoutines();
-    // await createInitialRoutineActivities();
+    await createInitialRoutineActivities();
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;

@@ -169,7 +169,7 @@ describe("Database", () => {
         );
       });
     });
-    xdescribe("getAllPublicRoutines", () => {
+    describe("getAllPublicRoutines", () => {
       let routine;
       beforeAll(async () => {
         [routine] = await getAllPublicRoutines();

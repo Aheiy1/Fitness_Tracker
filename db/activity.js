@@ -45,8 +45,6 @@ async function updateActivity({ id, ...fields }) {
   }
 }
 
-async function getRoutinesWithoutActivities() {}
-
 async function getActivityById(id) {
   try {
     const {
@@ -109,7 +107,6 @@ async function attachActivitiesToRoutines(routines) {
 module.exports = {
   createActivity,
   updateActivity,
-  getRoutinesWithoutActivities,
   getAllActivities,
   getActivityById,
   attachActivitiesToRoutines,
