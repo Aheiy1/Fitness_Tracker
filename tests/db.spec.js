@@ -55,10 +55,10 @@ describe("Database", () => {
         expect(userToCreateAndUpdate.username).toBe(userCredentials.username);
         expect(queriedUser.username).toBe(userCredentials.username);
       });
-      it("EXTRA CREDIT: Does not store plaintext password in the database", async () => {
+      xit("EXTRA CREDIT: Does not store plaintext password in the database", async () => {
         expect(queriedUser.password).not.toBe(userCredentials.password);
       });
-      it("EXTRA CREDIT: Hashes the password (salted 10 times) before storing it to the database", async () => {
+      xit("EXTRA CREDIT: Hashes the password (salted 10 times) before storing it to the database", async () => {
         const hashedVersion = bcrypt.compareSync(
           userCredentials.password,
           queriedUser.password
@@ -125,7 +125,7 @@ describe("Database", () => {
       });
     });
   });
-  xdescribe("Routines", () => {
+  describe("Routines", () => {
     let routineToCreateAndUpdate;
     describe("getActivityById", () => {
       it("gets activities by their id", async () => {
@@ -133,7 +133,7 @@ describe("Database", () => {
         expect(activity).toBeTruthy();
       });
     });
-    xdescribe("getAllRoutines", () => {
+    describe("getAllRoutines", () => {
       let routine;
       beforeAll(async () => {
         [routine] = await getAllRoutines();
