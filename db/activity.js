@@ -44,7 +44,6 @@ async function updateActivity({ id, ...fields }) {
     throw error;
   }
 }
-async function createRoutine() {}
 
 async function getRoutinesWithoutActivities() {}
 
@@ -110,7 +109,6 @@ async function attachActivitiesToRoutines(routines) {
 module.exports = {
   createActivity,
   updateActivity,
-  createRoutine,
   getRoutinesWithoutActivities,
   getAllActivities,
   getActivityById,
