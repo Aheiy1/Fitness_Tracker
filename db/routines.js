@@ -55,7 +55,6 @@ async function getPublicRoutinesByUser({ username }) {
   }
 }
 async function getPublicRoutinesByActivity({ id }) {
-
   try {
     const { rows: routines } = await client.query(
       `
@@ -143,6 +142,7 @@ async function getRoutineById(id) {
   }
 }
 
+
 async function getAllPublicRoutines() {
   try {
     const { rows: routines } = await client.query(`
@@ -158,6 +158,30 @@ async function getAllPublicRoutines() {
     throw error;
   }
 }
+async function destroyRoutine(id) {
+  try {
+    await client.query(
+      `
+DELETE FROM routine_activities
+WHERE "routineId" = $1;`,
+      [id]
+    );
+    const {
+      rows: [routine],
+    } = await client.query(
+      `
+          DELETE 
+          FROM routines
+          WHERE id = $1
+          RETURNING*;`,
+      [id]
+    );
+
+    return routine;
+  } catch (error) {
+    throw error;
+  }
+}
 
 module.exports = {
   getAllRoutines,
@@ -169,4 +193,5 @@ module.exports = {
   getPublicRoutinesByUser,
   getPublicRoutinesByActivity,
   updateRoutine,
+  destroyRoutine,
 };
