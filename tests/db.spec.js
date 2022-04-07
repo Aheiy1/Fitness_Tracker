@@ -283,7 +283,7 @@ describe("Database", () => {
         );
       });
     });
-    xdescribe("getPublicRoutinesByActivity", () => {
+    describe("getPublicRoutinesByActivity", () => {
       let routine, activity;
       beforeAll(async () => {
         activity = await getActivityById(3);
@@ -337,6 +337,7 @@ describe("Database", () => {
     });
     xdescribe("updateRoutine", () => {
       let queriedRoutine;
+
       beforeAll(async () => {
         routineToCreateAndUpdate = await updateRoutine({
           id: routineToCreateAndUpdate.id,
