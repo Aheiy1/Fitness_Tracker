@@ -54,7 +54,26 @@ async function getPublicRoutinesByUser({ username }) {
     throw error;
   }
 }
-
+async function getPublicRoutinesByActivity({ id }) {
+  console.log(id, "!!!!!!!!!!");
+  try {
+    const { row: routines } = await client.query(
+      `
+    SELECT routines.*, users.username AS "creatorName" 
+    FROM routines
+     JOIN users ON routines."creatorId" = users.id
+     JOIN routine_activities ON routines.id = routine_activities."routineId"
+     WHERE routines."isPublic" = true AND routine_activities."activityId"=$1;
+     
+     `,
+      [id]
+    );
+    console.log(routines, "LOOK AT ME!!!!");
+    return await attachActivitiesToRoutines(routines);
+  } catch (error) {
+    throw error;
+  }
+}
 async function getRoutinesWithoutActivities() {
   try {
     const { rows: routines } = await client.query(`
@@ -122,4 +141,5 @@ module.exports = {
   getRoutinesWithoutActivities,
   getAllRoutinesByUser,
   getPublicRoutinesByUser,
+  getPublicRoutinesByActivity,
 };
