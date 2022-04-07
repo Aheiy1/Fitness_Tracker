@@ -232,10 +232,10 @@ async function createInitialRoutineActivities() {
         duration: 15,
       },
     ];
-    // const routineActivities = await Promise.all(
-    //   routineActivitiesToCreate.map(addActivityToRoutine)
-    // );
-    // console.log("routine_activities created: ", routineActivities);
+    const routineActivities = await Promise.all(
+      routineActivitiesToCreate.map(addActivityToRoutine)
+    );
+    console.log("routine_activities created: ", routineActivities);
     console.log("Finished creating routine_activities!");
   } catch (error) {
     throw error;

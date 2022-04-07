@@ -26,7 +26,9 @@ async function getRoutinesWithoutActivities() {
 }
 async function createRoutine({ creatorId, isPublic, name, goal }) {
   try {
-    const { rows: routines } = await client.query(
+    const {
+      rows: [routine],
+    } = await client.query(
       `
    INSERT INTO routines("creatorId", "isPublic", name, goal)
    VALUES($1,$2,$3,$4)
@@ -34,8 +36,8 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
    `,
       [creatorId, isPublic, name, goal]
     );
-    console.log(routines, "FROM CREATE ROUTINE");
-    return routines;
+    console.log(routine, "FROM CREATE ROUTINE");
+    return routine;
   } catch (error) {
     throw error;
   }
@@ -66,7 +68,7 @@ async function getAllPublicRoutines() {
     `);
     // console.log(routines, "from get all routines");
     // console.log(attachActivitiesToRoutines(routines));
-    return attachActivitiesToRoutines(routines);
+    return await attachActivitiesToRoutines(routines);
   } catch (error) {
     throw error;
   }
