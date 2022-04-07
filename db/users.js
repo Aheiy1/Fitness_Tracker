@@ -49,6 +49,25 @@ async function getUser({ username, password }) {
   }
 }
 
+//helper function for getAllRoutinesByUser
+async function getUserByUsername(username) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+    SELECT * FROM users
+    WHERE username=$1;
+    `,
+      [username]
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getUserById(id) {
   try {
     const {
@@ -66,4 +85,10 @@ async function getUserById(id) {
   }
 }
 
-module.exports = { client, createUser, getUser, getUserById };
+module.exports = {
+  client,
+  createUser,
+  getUser,
+  getUserById,
+  getUserByUsername,
+};
