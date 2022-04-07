@@ -369,7 +369,7 @@ describe("Database", () => {
         expect(routineToCreateAndUpdate.goal).toBe(queriedRoutine.goal);
       });
     });
-    xdescribe("destroyRoutine", () => {
+    describe("destroyRoutine", () => {
       it("removes routine from database", async () => {
         await destroyRoutine(routineToCreateAndUpdate.id);
         const {
