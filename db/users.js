@@ -1,4 +1,4 @@
-const res = require("express/lib/response");
+
 const client = require("./client");
 
 async function createUser({ username, password }) {
@@ -86,7 +86,6 @@ async function getUserById(id) {
 }
 
 module.exports = {
-  client,
   createUser,
   getUser,
   getUserById,
