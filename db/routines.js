@@ -1,5 +1,6 @@
 const client = require("./client");
 const { attachActivitiesToRoutines } = require("./activity");
+const { getUserByUsername } = require("./users");
 
 async function getAllRoutines() {
   try {
@@ -15,6 +16,45 @@ async function getAllRoutines() {
     throw error;
   }
 }
+
+async function getAllRoutinesByUser({ username }) {
+  try {
+    const user = await getUserByUsername(username);
+    const { rows: routines } = await client.query(
+      `
+  SELECT routines.*, users.username AS "creatorName"
+  FROM routines
+  JOIN users ON routines."creatorId" = users.id
+  WHERE "creatorId" = $1;
+  `,
+      [user.id]
+    );
+
+    return await attachActivitiesToRoutines(routines);
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getPublicRoutinesByUser({ username }) {
+  try {
+    const user = await getUserByUsername(username);
+    const { rows: routines } = await client.query(
+      `
+     SELECT routines.*, users.username AS "creatorName"
+     FROM routines
+     JOIN users ON routines."creatorId" = users.id
+     WHERE "creatorId" = $1 and "isPublic" = true;
+     `,
+      [user.id]
+    );
+
+    return await attachActivitiesToRoutines(routines);
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getRoutinesWithoutActivities() {
   try {
     const { rows: routines } = await client.query(`
@@ -80,4 +120,6 @@ module.exports = {
   getRoutineById,
   getAllPublicRoutines,
   getRoutinesWithoutActivities,
+  getAllRoutinesByUser,
+  getPublicRoutinesByUser,
 };
