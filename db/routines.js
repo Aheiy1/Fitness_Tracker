@@ -55,20 +55,19 @@ async function getPublicRoutinesByUser({ username }) {
   }
 }
 async function getPublicRoutinesByActivity({ id }) {
-  console.log(id, "!!!!!!!!!!");
+
   try {
-    const { row: routines } = await client.query(
+    const { rows: routines } = await client.query(
       `
     SELECT routines.*, users.username AS "creatorName" 
     FROM routines
      JOIN users ON routines."creatorId" = users.id
-     JOIN routine_activities ON routines.id = routine_activities."routineId"
+     JOIN routine_activities ON routine_activities."routineId" = routines.id
      WHERE routines."isPublic" = true AND routine_activities."activityId"=$1;
      
      `,
       [id]
     );
-    console.log(routines, "LOOK AT ME!!!!");
     return await attachActivitiesToRoutines(routines);
   } catch (error) {
     throw error;
@@ -96,6 +95,33 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
       [creatorId, isPublic, name, goal]
     );
     console.log(routine, "FROM CREATE ROUTINE");
+    return routine;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function updateRoutine({ id, ...fields }) {
+  const setString = Object.keys(fields)
+    .map((key, index) => {
+      return `"${key}"=$${index + 1}`;
+    })
+    .join(", ");
+  if (setString.length === 0) {
+    return;
+  }
+  try {
+    const {
+      rows: [routine],
+    } = await client.query(
+      `
+      UPDATE routines
+      SET ${setString}
+      WHERE id=${id}
+      RETURNING *;
+      `,
+      Object.values(fields)
+    );
     return routine;
   } catch (error) {
     throw error;
@@ -142,4 +168,5 @@ module.exports = {
   getAllRoutinesByUser,
   getPublicRoutinesByUser,
   getPublicRoutinesByActivity,
+  updateRoutine,
 };
