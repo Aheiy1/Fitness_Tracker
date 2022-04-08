@@ -2,7 +2,13 @@ const express = require("express");
 const usersRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const { getUserByUsername, createUser, getUser } = require("../db");
+const {
+  getUserByUsername,
+  createUser,
+  getUser,
+  getPublicRoutinesByUser,
+} = require("../db");
+const { requireUser } = require("./utils");
 
 usersRouter.post("/register", async (req, res, next) => {
   try {
@@ -30,7 +36,7 @@ usersRouter.post("/register", async (req, res, next) => {
           { id: user.id, username: username },
           process.env.JWT_SECRET
         );
-        res.send({ user ,token, message: "you're logged in!" });
+        res.send({ user, token, message: "you're logged in!" });
       }
     }
   } catch (error) {
@@ -99,6 +105,22 @@ usersRouter.post("/login", async (req, res, next) => {
   } catch (error) {
     // console.log(error);
     next(error);
+  }
+});
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    res.send(req.user);
+  } catch (error) {
+    next(error);
+  }
+});
+usersRouter.get("/:username/routines", async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const publicUser = await getPublicRoutinesByUser({ username });
+    res.send(publicUser);
+  } catch ({ name, message }) {
+    next({ name, message });
   }
 });
 
