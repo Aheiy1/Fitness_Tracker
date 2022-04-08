@@ -175,7 +175,7 @@ describe("API", () => {
         expect(filteredActivity.description).toEqual(curls.description);
       });
     });
-    xdescribe("POST /activities (*)", () => {
+    describe("POST /activities (*)", () => {
       it("Creates a new activity", async () => {
         const { data: respondedActivity } = await axios.post(
           `${API_URL}/api/activities`,
@@ -189,7 +189,7 @@ describe("API", () => {
         activityToCreateAndUpdate = respondedActivity;
       });
     });
-    xdescribe("PATCH /activities/:activityId (*)", () => {
+    describe("PATCH /activities/:activityId (*)", () => {
       it("Anyone can update an activity (yes, this could lead to long term problems a la wikipedia)", async () => {
         const newActivityData = {
           name: "Double Bicep Curls",

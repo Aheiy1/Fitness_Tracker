@@ -13,7 +13,7 @@ async function createUser({ username, password }) {
     `,
       [username, password]
     );
-    console.log("IS A USER MADE?", user);
+    // console.log("IS A USER MADE?", user);
     return user;
   } catch (error) {
     throw error;
