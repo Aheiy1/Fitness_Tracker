@@ -206,7 +206,7 @@ describe("API", () => {
         );
       });
     });
-    xdescribe("GET /activities/:activityId/routines", () => {
+    describe("GET /activities/:activityId/routines", () => {
       it("Get a list of all public routines which feature that activity", async () => {
         const [testRoutine] = await getAllPublicRoutines();
         const [testActivity] = testRoutine.activities;
@@ -234,7 +234,7 @@ describe("API", () => {
       name: "Elliptical Day Private",
       goal: "Work on that Elliptical, yet again!",
     };
-    describe("GET /routines", () => {
+    xdescribe("GET /routines", () => {
       it("Returns a list of public routines, includes the activities with them", async () => {
         const publicRoutinesFromDB = await getAllPublicRoutines();
         const { data: publicRoutinesFromAPI } = await axios.get(
