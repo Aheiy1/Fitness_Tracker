@@ -3,7 +3,6 @@ const routine_actRouter = express.Router();
 const { requireUser } = require("./utils");
 const {
   updateRoutineActivity,
-  getRoutineActivitiesByRoutine,
   getRoutineById,
   getRoutineActivityById,
 } = require("../db");
@@ -34,8 +33,6 @@ routine_actRouter.patch(
         } else (
             res.status(401)
         )
-        console.log(fields, "beforeupdate")
-      console.log(fields, "AFTERRRRR")
      
     } catch (error) {
       next(error);
@@ -43,7 +40,7 @@ routine_actRouter.patch(
   }
 );
 
-
+//getting my fields but for some reason they wont update after being passed with update routine activity
 
 
 module.exports = routine_actRouter;
