@@ -1,5 +1,19 @@
 const client = require("./client");
 
+async function getRoutineActivityById( id ) {
+  try {
+    const { rows: [routine_activity] } = await client.query(
+      `
+    SELECT * FROM routine_activities
+    WHERE "routineId" = $1;`,
+      [id]
+    );
+    return routine_activity;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function addActivityToRoutine({
   routineId,
   activityId,
@@ -13,10 +27,12 @@ async function addActivityToRoutine({
       `
   INSERT INTO routine_activities ("routineId", "activityId", count, duration)
   VALUES ($1, $2, $3, $4)
+  ON CONFLICT ("routineId", "activityId") DO NOTHING
   RETURNING *;
   `,
       [routineId, activityId, count, duration]
     );
+    console.log(routine_activity, "This is my log on line 20!!!!")
     return routine_activity;
   } catch (error) {
     throw error;
@@ -38,10 +54,11 @@ async function getRoutineActivitiesByRoutine({ id }) {
 }
 
 async function updateRoutineActivity({ id, ...fields }) {
+ console.log(fields, "at the top")
   const setString = Object.keys(fields)
-    .map((key, index) => {
-      return `"${key}"=$${index + 1}`;
-    })
+    .map((key, index) => 
+      `"${key}"=$${index + 1}`
+    )
     .join(", ");
   if (setString.length === 0) {
     return;
@@ -58,6 +75,7 @@ async function updateRoutineActivity({ id, ...fields }) {
     `,
       Object.values(fields)
     );
+    // console.log(routine_activity, "from line 78")
     return routine_activity;
   } catch (error) {
     throw error;
@@ -88,4 +106,5 @@ module.exports = {
   getRoutineActivitiesByRoutine,
   updateRoutineActivity,
   destroyRoutineActivity,
+  getRoutineActivityById
 };

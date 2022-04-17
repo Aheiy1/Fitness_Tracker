@@ -93,7 +93,7 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
    `,
       [creatorId, isPublic, name, goal]
     );
-    console.log(routine, "FROM CREATE ROUTINE");
+   
     return routine;
   } catch (error) {
     throw error;

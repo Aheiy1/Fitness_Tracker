@@ -272,7 +272,7 @@ describe("API", () => {
         expect(noLoggedInUserErrResp.data).toBeTruthy();
       });
     });
-    xdescribe("PATCH /routines/:routineId (**)", () => {
+    describe("PATCH /routines/:routineId (**)", () => {
       it("Updates a routine, notably changing public/private, the name, or the goal", async () => {
         const { data: respondedRoutine } = await axios.patch(
           `${API_URL}/api/routines/${routineToCreateAndUpdate.id}`,
@@ -284,7 +284,7 @@ describe("API", () => {
         routineToCreateAndUpdate = respondedRoutine;
       });
     });
-    xdescribe("DELETE /routines/:routineId (**)", () => {
+    describe("DELETE /routines/:routineId (**)", () => {
       it("Hard deletes a routine. Makes sure to delete all the routineActivities whose routine is the one being deleted.", async () => {
         const { data: deletedRoutine } = await axios.delete(
           `${API_URL}/api/routines/${routineToCreateAndUpdate.id}`,
@@ -297,7 +297,7 @@ describe("API", () => {
         expect(shouldBeDeleted).toBeFalsy();
       });
     });
-    xdescribe("POST /routines/:routineId/activities", () => {
+    describe("POST /routines/:routineId/activities", () => {
       let newRoutine;
       it("Attaches a single activity to a routine.", async () => {
         newRoutine = await createRoutine({
@@ -332,14 +332,14 @@ describe("API", () => {
       });
     });
   });
-  xdescribe("routine_activities", () => {
+  describe("routine_activities", () => {
     let newRoutineActivityData = {
       routineId: 3,
       activityId: 8,
       count: 25,
       duration: 200,
     };
-    xdescribe("PATCH /routine_activities/:routineActivityId (**)", () => {
+    describe("PATCH /routine_activities/:routineActivityId (**)", () => {
       it("Updates the count or duration on the routine activity", async () => {
         const { data: respondedRoutineActivity } = await axios.patch(
           `${API_URL}/api/routine_activities/${routineActivityToCreateAndUpdate.id}`,
