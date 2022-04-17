@@ -7,6 +7,7 @@ const {
   updateRoutine,
   destroyRoutine,
   getRoutineById,
+  addActivityToRoutine,
 } = require("../db");
 
 routinesRouter.get("/", async (req, res, next) => {
@@ -64,5 +65,29 @@ routinesRouter.delete("/:routineId", requireUser, async (req, res, next) => {
     next(error);
   }
 });
+
+routinesRouter.post(
+  "/:routineId/activities",
+  requireUser,
+  async (req, res, next) => {
+    const { activityId, count, duration } = req.body;
+    const { routineId } = req.params;
+    try {
+      const addActivity = await addActivityToRoutine({
+        routineId,
+        activityId,
+        count,
+        duration,
+      });
+      if (!addActivity) {
+        next();
+      } else {
+        res.send(addActivity);
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = routinesRouter;

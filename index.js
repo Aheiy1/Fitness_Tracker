@@ -7,7 +7,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const client = require('./db/client');
 
-console.log(process.env.JWT_SECRET);
+
 
 client.connect();
 server.use(morgan("dev"));
