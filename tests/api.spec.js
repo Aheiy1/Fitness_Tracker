@@ -218,7 +218,7 @@ describe("API", () => {
       });
     });
   });
-  xdescribe("Routines", () => {
+  describe("Routines", () => {
     let routineToCreateAndUpdate = {
       isPublic: true,
       name: "Elliptical Day",
@@ -234,7 +234,7 @@ describe("API", () => {
       name: "Elliptical Day Private",
       goal: "Work on that Elliptical, yet again!",
     };
-    xdescribe("GET /routines", () => {
+    describe("GET /routines", () => {
       it("Returns a list of public routines, includes the activities with them", async () => {
         const publicRoutinesFromDB = await getAllPublicRoutines();
         const { data: publicRoutinesFromAPI } = await axios.get(
@@ -244,7 +244,7 @@ describe("API", () => {
       });
     });
 
-    xdescribe("POST /routines (*)", () => {
+    describe("POST /routines (*)", () => {
       it("Creates a new routine, with the creatorId matching the logged in user", async () => {
         const { data: respondedRoutine } = await axios.post(
           `${API_URL}/api/routines`,
@@ -339,7 +339,7 @@ describe("API", () => {
       count: 25,
       duration: 200,
     };
-    describe("PATCH /routine_activities/:routineActivityId (**)", () => {
+    xdescribe("PATCH /routine_activities/:routineActivityId (**)", () => {
       it("Updates the count or duration on the routine activity", async () => {
         const { data: respondedRoutineActivity } = await axios.patch(
           `${API_URL}/api/routine_activities/${routineActivityToCreateAndUpdate.id}`,
@@ -369,7 +369,7 @@ describe("API", () => {
         expect(errRespondedRoutineActivity.data).toBeTruthy();
       });
     });
-    xdescribe("DELETE /routine_activities/:routineActivityId (**)", () => {
+    describe("DELETE /routine_activities/:routineActivityId (**)", () => {
       it("Removes an activity from a routine, uses hard delete", async () => {
         const { data: deletedRoutineActivity } = await axios.delete(
           `${API_URL}/api/routine_activities/${routineActivityToCreateAndUpdate.id}`,
